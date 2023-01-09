@@ -21,37 +21,17 @@ namespace KizhiPart1
             var commandName = commandSplit[0];
             var variable = commandSplit[1];
             int value = 0;
-            if (commandName != "print" && commandName != "rem")
+            if (commandSplit.Length == 3)
                 value = int.Parse(commandSplit[2]);
 
             if (commandName == "set")
                 CommandSetProcessing(variable, value);
             else if (commandName == "sub")
-            {
-                if (variableValuePairs.ContainsKey(variable))
-                {
-                    if (variableValuePairs[variable] - value > 0)
-                        variableValuePairs[variable] -= value;
-                    else
-                        _writer.WriteLine("Числа должны быть натуральными!");
-                }
-                else
-                    _writer.WriteLine("Переменная отсутствует в памяти");
-            }
+                CommandSubProcessing(variable, value);
             else if (commandName == "print")
-            {
-                if (variableValuePairs.ContainsKey(variable))
-                    _writer.WriteLine(variableValuePairs[variable].ToString());
-                else
-                    _writer.WriteLine("Переменная отсутствует в памяти");
-            }
+                CommandPrintProcessing(variable);
             else if (commandName == "rem")
-            {
-                if (variableValuePairs.ContainsKey(variable))
-                    variableValuePairs.Remove(variable);
-                else
-                    _writer.WriteLine("Переменная отсутствует в памяти");
-            }
+                CommandRemProcessing(variable);
             else
                 _writer.WriteLine("Такой команды не существует!");
         }
@@ -62,6 +42,35 @@ namespace KizhiPart1
                 variableValuePairs[variable] = value;
             else
                 variableValuePairs.Add(variable, value);
+        }
+
+        private void CommandSubProcessing(string variable, int value)
+        {
+            if (variableValuePairs.ContainsKey(variable))
+            {
+                if (variableValuePairs[variable] - value > 0)
+                    variableValuePairs[variable] -= value;
+                else
+                    _writer.WriteLine("Числа должны быть натуральными!");
+            }
+            else
+                _writer.WriteLine("Переменная отсутствует в памяти");
+        }
+
+        private void CommandPrintProcessing(string variable)
+        {
+            if (variableValuePairs.ContainsKey(variable))
+                _writer.WriteLine(variableValuePairs[variable].ToString());
+            else
+                _writer.WriteLine("Переменная отсутствует в памяти");
+        }
+
+        private void CommandRemProcessing(string variable)
+        {
+            if (variableValuePairs.ContainsKey(variable))
+                variableValuePairs.Remove(variable);
+            else
+                _writer.WriteLine("Переменная отсутствует в памяти");
         }
     }
 }
