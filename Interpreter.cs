@@ -26,10 +26,7 @@ namespace KizhiPart1
 
             if (commandName == "set")
             {
-                if (variableValuePairs.ContainsKey(variable))
-                    variableValuePairs[variable] = value;
-                else
-                    variableValuePairs.Add(variable, value);
+                CommandSetProcessing(variable, value);
             }
             else if (commandName == "sub")
             {
@@ -59,6 +56,14 @@ namespace KizhiPart1
             }
             else
                 _writer.WriteLine("Такой команды не существует!");
+        }
+
+        private void CommandSetProcessing(string variable, int value)
+        {
+            if (variableValuePairs.ContainsKey(variable))
+                variableValuePairs[variable] = value;
+            else
+                variableValuePairs.Add(variable, value);
         }
     }
 }
